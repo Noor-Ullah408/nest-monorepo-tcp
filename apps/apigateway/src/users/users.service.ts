@@ -2,6 +2,7 @@ import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { PrismaService } from 'apps/prisma.service';
 import {
+  AUTH_PACKAGE_NAME,
   LOGIN_SERVICE_NAME,
   LoginServiceClient,
   Token,
@@ -16,7 +17,7 @@ export class UsersService implements OnModuleInit {
   //We inject the gRPC with the required Service Name in the constructor
   // along with our PrismaService
   constructor(
-    @Inject(LOGIN_SERVICE_NAME) private client: ClientGrpc,
+    @Inject(AUTH_PACKAGE_NAME) private client: ClientGrpc,
     private prisma: PrismaService,
   ) {}
   //This initializes our gRPC client with the correct service names

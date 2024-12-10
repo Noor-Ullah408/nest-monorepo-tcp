@@ -4,6 +4,7 @@ import { UsersController } from './users.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_PACKAGE_NAME } from 'proto/auth';
 import { join } from 'path';
+import { PrismaService } from 'apps/prisma.service';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { join } from 'path';
     ]),
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, PrismaService],
 })
 export class UsersModule {}
