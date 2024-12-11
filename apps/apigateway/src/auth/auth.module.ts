@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AUTH_PACKAGE_NAME } from 'proto/auth';
 import { join } from 'path';
@@ -19,7 +19,8 @@ import { PrismaService } from 'apps/prisma.service';
       },
     ]),
   ],
-  controllers: [UsersController],
-  providers: [UsersService, PrismaService],
+  controllers: [AuthController],
+  providers: [AuthService, PrismaService],
+  exports: [PrismaService],
 })
-export class UsersModule {}
+export class AuthModule {}

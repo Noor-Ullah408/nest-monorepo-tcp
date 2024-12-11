@@ -18,4 +18,21 @@ model User {
   email String @unique
   password String 
   name String?
+  tickets Ticket[]
+}
+
+model Service {
+  id Int @default(autoincrement()) @id
+  title String
+  desc String
+  child_service_id Int? @unique
+  child_service Service? @relation("ChildService", fields: [child_service_id], references: [id])
+  parent_service Service? @relation("ChildService")
+}
+
+model Ticket {
+  id Int @default(autoincrement()) @id
+  ticket_number Int? 
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
 }

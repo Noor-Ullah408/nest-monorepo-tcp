@@ -17,7 +17,9 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/apigateway/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
+        "assets": [
+          "proto/*.proto"
+        ],
         "watchAssets": true
       }
     },
@@ -28,8 +30,19 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/auth/tsconfig.app.json",
-        "assets": ["proto/*.proto"],
+        "assets": [
+          "proto/*.proto"
+        ],
         "watchAssets": true
+      }
+    },
+    "user-manage": {
+      "type": "application",
+      "root": "apps/user-manage",
+      "entryFile": "main",
+      "sourceRoot": "apps/user-manage/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user-manage/tsconfig.app.json"
       }
     }
   }
