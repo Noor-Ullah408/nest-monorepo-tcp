@@ -1,17 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { USER_MANAGEMENT_PACKAGE_NAME } from 'proto/user-manage';
-import { join } from 'path';
 import { UsersModule } from './users/users.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     UsersModule,
     {
-      transport: Transport.GRPC,
+      transport: Transport.RMQ,
       options: {
-        package: USER_MANAGEMENT_PACKAGE_NAME,
-        protoPath: join(process.cwd(), '/proto/user-manage.proto'),
+        urls: ['amqp://localhost:5672'],
+        queue: 'users-manage',
+        queueOptions: {
+          durable: false,
+        },
       },
     },
   );
