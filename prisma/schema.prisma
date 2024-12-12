@@ -36,3 +36,9 @@ model Ticket {
   user User @relation(fields: [user_id], references: [id])
   user_id Int @unique
 }
+
+model Notification {
+  id Int @default(autoincrement()) @id
+  user_id Int? @unique
+  message String
+}

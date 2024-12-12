@@ -44,6 +44,24 @@
       "compilerOptions": {
         "tsConfigPath": "apps/user-manage/tsconfig.app.json"
       }
+    },
+    "tickets": {
+      "type": "application",
+      "root": "apps/tickets",
+      "entryFile": "main",
+      "sourceRoot": "apps/tickets/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/tickets/tsconfig.app.json"
+      }
+    },
+    "notifications": {
+      "type": "application",
+      "root": "apps/notifications",
+      "entryFile": "main",
+      "sourceRoot": "apps/notifications/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notifications/tsconfig.app.json"
+      }
     }
   }
 }
