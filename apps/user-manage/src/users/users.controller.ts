@@ -3,13 +3,16 @@ import { UsersService } from './users.service';
 import { Observable } from 'rxjs';
 import { User } from '@prisma/client';
 import { CreateUserDto, FindOneUserDto, UpdateUserDto } from '../dto/user.dto';
+import { EventPattern } from '@nestjs/microservices';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+  @EventPattern('all_users')
   findAllUsers(): Observable<User[]> | Promise<User[]> {
     const users = this.usersService.findAllUsers();
     return users;
   }
+  @EventPattern('one_user')
   findOneUser(request: FindOneUserDto): Promise<User> | Observable<User> {
     const user = this.usersService.findOneUser(request);
     return user;

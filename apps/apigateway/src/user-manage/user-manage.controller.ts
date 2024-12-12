@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Delete } from '@nestjs/common';
 import { UserManageService } from './user-manage.service';
 import {
   CreateUserDto,
-  Empty,
   FindOneUserDto,
   UpdateUserDto,
 } from 'proto/user-manage';
@@ -17,8 +16,8 @@ export class UserManageController {
   }
 
   @Get()
-  findAll(request: Empty) {
-    return this.userManageService.findAllUsers(request);
+  findAll() {
+    return this.userManageService.findAllUsers();
   }
 
   @Get(':id')
