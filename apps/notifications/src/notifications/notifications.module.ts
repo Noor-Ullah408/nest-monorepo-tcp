@@ -9,13 +9,9 @@ import { PrismaService } from 'apps/prisma.service';
     ClientsModule.register([
       {
         name: 'TICKETS',
-        transport: Transport.RMQ,
+        transport: Transport.TCP,
         options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'tickets',
-          queueOptions: {
-            durable: false,
-          },
+          port: 3004,
         },
       },
     ]),
