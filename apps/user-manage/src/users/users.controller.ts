@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Observable } from 'rxjs';
 import { User } from '@prisma/client';
@@ -7,6 +7,10 @@ import { EventPattern } from '@nestjs/microservices';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+  @Get('all')
+  getAllUsers() {
+    return 'Get All Users';
+  }
   @EventPattern('all_users')
   findAllUsers(): Observable<User[]> | Promise<User[]> {
     const users = this.usersService.findAllUsers();

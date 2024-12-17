@@ -1,35 +1,18 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Inject } from '@nestjs/common';
+import { ClientProxy, EventPattern } from '@nestjs/microservices';
 import { NotificationsService } from './notifications.service';
-import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
 
 @Controller()
 export class NotificationsController {
-  constructor(private readonly notificationsService: NotificationsService) {}
-
-  @MessagePattern('createNotification')
-  create(@Payload() createNotificationDto: CreateNotificationDto) {
-    return this.notificationsService.create(createNotificationDto);
+  constructor(
+    @Inject('TICKETS') private RMQClient: ClientProxy,
+    private readonly notificationsService: NotificationsService,
+  ) {}
+  @EventPattern('create_ticket_notification')
+  create(data) {
+    console.log(data);
   }
-
-  @MessagePattern('findAllNotifications')
   findAll() {
-    return this.notificationsService.findAll();
-  }
-
-  @MessagePattern('findOneNotification')
-  findOne(@Payload() id: number) {
-    return this.notificationsService.findOne(id);
-  }
-
-  @MessagePattern('updateNotification')
-  update(@Payload() updateNotificationDto: UpdateNotificationDto) {
-    return this.notificationsService.update(updateNotificationDto.id, updateNotificationDto);
-  }
-
-  @MessagePattern('removeNotification')
-  remove(@Payload() id: number) {
-    return this.notificationsService.remove(id);
+    return this.notificationsService.getAllNotifications();
   }
 }

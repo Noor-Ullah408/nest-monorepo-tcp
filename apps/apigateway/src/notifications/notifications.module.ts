@@ -2,25 +2,21 @@ import { Module } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { NotificationsController } from './notifications.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { PrismaService } from 'apps/prisma.service';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: 'TICKETS',
-        transport: Transport.RMQ,
+        name: 'NOTIFICATIONS',
+        transport: Transport.TCP,
         options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'tickets',
-          queueOptions: {
-            durable: false,
-          },
+          host: '127.0.0.1',
+          port: 3002,
         },
       },
     ]),
   ],
   controllers: [NotificationsController],
-  providers: [NotificationsService, PrismaService],
+  providers: [NotificationsService],
 })
 export class NotificationsModule {}

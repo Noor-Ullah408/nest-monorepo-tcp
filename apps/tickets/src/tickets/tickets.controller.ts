@@ -1,35 +1,21 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Inject } from '@nestjs/common';
+import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { TicketsService } from './tickets.service';
-import { CreateTicketDto } from './dto/create-ticket.dto';
-import { UpdateTicketDto } from './dto/update-ticket.dto';
+import { Ticket } from '@prisma/client';
 
 @Controller()
 export class TicketsController {
-  constructor(private readonly ticketsService: TicketsService) {}
-
-  @MessagePattern('createTicket')
-  create(@Payload() createTicketDto: CreateTicketDto) {
-    return this.ticketsService.create(createTicketDto);
+  constructor(
+    @Inject('TICKETS') private RMQClient: ClientProxy,
+    private readonly ticketsService: TicketsService,
+  ) {}
+  @MessagePattern({ cmd: 'create_ticket' })
+  async create(@Payload() createTicketDto: Ticket) {
+    const ticket = await this.ticketsService.createTicket(createTicketDto);
+    await this.publishEvent(createTicketDto);
+    return ticket;
   }
-
-  @MessagePattern('findAllTickets')
-  findAll() {
-    return this.ticketsService.findAll();
-  }
-
-  @MessagePattern('findOneTicket')
-  findOne(@Payload() id: number) {
-    return this.ticketsService.findOne(id);
-  }
-
-  @MessagePattern('updateTicket')
-  update(@Payload() updateTicketDto: UpdateTicketDto) {
-    return this.ticketsService.update(updateTicketDto.id, updateTicketDto);
-  }
-
-  @MessagePattern('removeTicket')
-  remove(@Payload() id: number) {
-    return this.ticketsService.remove(id);
+  async publishEvent(payload: Ticket) {
+    return this.RMQClient.emit('create_ticket_notification', payload);
   }
 }
